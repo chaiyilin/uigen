@@ -5,8 +5,7 @@ import {
   LanguageModelV1Message,
 } from "@ai-sdk/provider";
 
-const MODEL = "claude-haiku-4-5";
-
+const MODEL = "claude-sonnet-4-20250514";
 export class MockLanguageModel implements LanguageModelV1 {
   readonly specificationVersion = "v1" as const;
   readonly provider = "mock";
@@ -56,7 +55,7 @@ export class MockLanguageModel implements LanguageModelV1 {
 
   private async *generateMockStream(
     messages: LanguageModelV1Message[],
-    userPrompt: string
+    userPrompt: string,
   ): AsyncGenerator<LanguageModelV1StreamPart> {
     // Count tool messages to determine which step we're on
     const toolMessageCount = messages.filter((m) => m.role === "tool").length;
@@ -423,7 +422,7 @@ export default function App() {
   }
 
   async doGenerate(
-    options: Parameters<LanguageModelV1["doGenerate"]>[0]
+    options: Parameters<LanguageModelV1["doGenerate"]>[0],
   ): Promise<Awaited<ReturnType<LanguageModelV1["doGenerate"]>>> {
     const userPrompt = this.extractUserPrompt(options.prompt);
 
@@ -431,7 +430,7 @@ export default function App() {
     const parts: LanguageModelV1StreamPart[] = [];
     for await (const part of this.generateMockStream(
       options.prompt,
-      userPrompt
+      userPrompt,
     )) {
       parts.push(part);
     }
@@ -475,7 +474,7 @@ export default function App() {
   }
 
   async doStream(
-    options: Parameters<LanguageModelV1["doStream"]>[0]
+    options: Parameters<LanguageModelV1["doStream"]>[0],
   ): Promise<Awaited<ReturnType<LanguageModelV1["doStream"]>>> {
     const userPrompt = this.extractUserPrompt(options.prompt);
     const self = this;
