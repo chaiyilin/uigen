@@ -10,7 +10,7 @@ export default async function Home() {
   // If user is authenticated, redirect to their most recent project
   if (user) {
     const projects = await getProjects();
-    
+
     if (projects.length > 0) {
       redirect(`/${projects[0].id}`);
     }
@@ -25,6 +25,6 @@ export default async function Home() {
     redirect(`/${newProject.id}`);
   }
 
-  // For anonymous users, show the main content without a project
+  // For anonymous users, show the main content without a project, allows them to sign up/sign in
   return <MainContent user={user} />;
 }
